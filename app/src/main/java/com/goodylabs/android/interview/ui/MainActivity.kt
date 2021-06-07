@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.goodylabs.android.interview.R
 import com.goodylabs.android.interview.databinding.ActivityMainBinding
 import com.goodylabs.android.interview.util.hideSoftInput
@@ -21,14 +23,17 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
-        navController = navHostFragment.navController
-
         initializeNavController()
     }
 
     private fun initializeNavController() {
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
+        navController = navHostFragment.navController
+
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.mainFragmentToolbar.setupWithNavController(navController, appBarConfiguration)
+
         navController.addOnDestinationChangedListener { _, _, _ -> hideSoftInput() }
     }
 }
