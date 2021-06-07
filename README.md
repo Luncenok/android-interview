@@ -29,7 +29,7 @@ Please clone this repository and run existing app
 Create a character list using RecyclerView
 + endpoint with a list of characters is partially ready. You need to create a character serializable model based on the API documentation
 + layout of a single item in a list must include at least the name and avatar. 
-+ pagination is not required
++ pagination is not required but will be appreciated
 
 **Part 2:**
 
