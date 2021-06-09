@@ -9,5 +9,8 @@ class CharacterRepository @Inject constructor(private val characterService: Char
 
     suspend fun getCharacterContainer() = characterService.getCharacterContainer()
 
+    suspend fun getCharacterNextContainer(page: Int) =
+        characterService.getCharacterNextContainer(page)
+
     suspend fun getCharacterById(characterId: Int) = characterService.getCharacter(characterId)
 }

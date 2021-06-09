@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.goodylabs.android.interview.databinding.FragmentCharacterListBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,7 +18,7 @@ class CharacterListFragment : Fragment() {
     private val viewModel: CharacterListViewModel by viewModels()
 
     private lateinit var binding: FragmentCharacterListBinding
-    private val adapter = CharacterListAdapter(CharacterListener {
+    private val characterListAdapter = CharacterListAdapter(CharacterListener {
         this.findNavController().navigate(
             CharacterListFragmentDirections.actionCharacterListFragmentToCharacterDetailsFragment(
                 it
@@ -32,7 +34,22 @@ class CharacterListFragment : Fragment() {
         binding = FragmentCharacterListBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = viewLifecycleOwner
-        binding.listCharacterRecycler.adapter = adapter
+
+        val linearLayoutManager = LinearLayoutManager(context)
+        binding.listCharacterRecycler.apply {
+            adapter = characterListAdapter
+            layoutManager = linearLayoutManager
+        }
+
+        binding.listCharacterRecycler.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                val totalItemCount = linearLayoutManager.itemCount
+                if (totalItemCount == linearLayoutManager.findLastVisibleItemPosition() + 1) {
+                    viewModel.loadNextList()
+                }
+            }
+        })
 
         return binding.root
     }
@@ -41,7 +58,7 @@ class CharacterListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.listCharacters.observe(viewLifecycleOwner, {
-            adapter.submitList(it)
+            characterListAdapter.submitList(it)
         })
     }
 }

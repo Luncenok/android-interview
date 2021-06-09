@@ -8,7 +8,7 @@ import com.squareup.moshi.JsonClass
 data class CharactersContainer(
 
     @Json(name = "info")
-    val info: PageInfo?,
+    val info: PageInfo,
 
     @Json(name = "results")
     val results: List<Character>?
