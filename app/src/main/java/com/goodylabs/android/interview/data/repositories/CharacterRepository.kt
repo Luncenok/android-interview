@@ -8,4 +8,6 @@ import javax.inject.Singleton
 class CharacterRepository @Inject constructor(private val characterService: CharacterService) {
 
     suspend fun getCharacterContainer() = characterService.getCharacterContainer()
+
+    suspend fun getCharacterById(characterId: Int) = characterService.getCharacter(characterId)
 }

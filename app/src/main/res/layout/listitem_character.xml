@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout>
+
+    <data>
+
+        <variable
+            name="character"
+            type="com.goodylabs.android.interview.data.models.Character" />
+
+        <variable
+            name="clickListener"
+            type="com.goodylabs.android.interview.ui.characterlist.CharacterListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_margin="10dp"
+        android:onClick="@{() -> clickListener.onClick(character)}">
+
+        <ImageView
+            android:id="@+id/characterListImage"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:contentDescription="@string/character_image"
+            app:imageUrl="@{character.image}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/characterListName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/characterListName"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@{character.name}"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/characterListImage"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Toxic Rick" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
