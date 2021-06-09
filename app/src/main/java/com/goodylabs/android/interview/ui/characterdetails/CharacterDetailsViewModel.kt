@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CharacterDetailsViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
-    private val savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle
 ) : ArgsViewModel(savedStateHandle) {
     private val viewModelJob = Job()
 
