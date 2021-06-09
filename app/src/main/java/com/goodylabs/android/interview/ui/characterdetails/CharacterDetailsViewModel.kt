@@ -8,7 +8,6 @@ import com.goodylabs.android.interview.data.models.Character
 import com.goodylabs.android.interview.data.repositories.CharacterRepository
 import com.goodylabs.android.interview.util.ArgsViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,7 +16,6 @@ class CharacterDetailsViewModel @Inject constructor(
     private val characterRepository: CharacterRepository,
     savedStateHandle: SavedStateHandle
 ) : ArgsViewModel(savedStateHandle) {
-    private val viewModelJob = Job()
 
     private val args: CharacterDetailsFragmentArgs by navArgs()
 
@@ -29,10 +27,5 @@ class CharacterDetailsViewModel @Inject constructor(
         viewModelScope.launch {
             _character.value = characterRepository.getCharacterById(characterKey)
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }

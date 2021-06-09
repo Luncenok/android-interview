@@ -8,14 +8,12 @@ import com.goodylabs.android.interview.data.models.Character
 import com.goodylabs.android.interview.data.models.CharactersContainer
 import com.goodylabs.android.interview.data.repositories.CharacterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharacterListViewModel @Inject constructor(private val characterRepository: CharacterRepository) :
     ViewModel() {
-    private val viewModelJob = Job()
 
     private val _listCharacters = MutableLiveData<List<Character>?>()
     val listCharacters: LiveData<List<Character>?> = _listCharacters
@@ -41,10 +39,5 @@ class CharacterListViewModel @Inject constructor(private val characterRepository
                 nextPage++
             }
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelJob.cancel()
     }
 }

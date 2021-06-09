@@ -29,4 +29,3 @@ fun setCharacterViewVisibility(view: View, character: Character?) {
     if (character == null) view.visibility = View.GONE
     else view.visibility = View.VISIBLE
 }
-
