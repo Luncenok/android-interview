@@ -1,15 +1,15 @@
 package com.goodylabs.android.interview.ui
 
 enum class MainScreen {
-    ListScreen(),
-    DetailsScreen();
+    CharacterList(),
+    CharacterDetails();
 
     companion object {
         fun fromRoute(route: String?): MainScreen =
             when (route?.substringBefore("/")) {
-                ListScreen.name -> ListScreen
-                DetailsScreen.name -> DetailsScreen
-                null -> ListScreen
+                CharacterList.name -> CharacterList
+                CharacterDetails.name -> CharacterDetails
+                null -> CharacterList
                 else -> throw IllegalArgumentException("Route $route is not recognized.")
 
             }

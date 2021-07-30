@@ -1,39 +1,57 @@
 package com.goodylabs.android.interview.ui
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
-import com.goodylabs.android.interview.R
-import com.goodylabs.android.interview.databinding.ActivityMainBinding
-import com.goodylabs.android.interview.util.hideSoftInput
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.goodylabs.android.interview.ui.characterdetails.CharacterDetailsBody
+import com.goodylabs.android.interview.ui.characterlist.CharacterListBody
+import com.goodylabs.android.interview.ui.theme.AndroidinterviewTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
-
-    private lateinit var navController: NavController
-
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-
-        initializeNavController()
+        setContent {
+            InterviewApp()
+        }
     }
+}
 
-    private fun initializeNavController() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
-        navController = navHostFragment.navController
+@Composable
+fun InterviewApp() {
+    AndroidinterviewTheme {
+        val navController = rememberNavController()
 
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-        binding.mainFragmentToolbar.setupWithNavController(navController, appBarConfiguration)
+        Scaffold { innerPadding ->
+            InterviewNavHost(
+                navController = navController,
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
+}
 
-        navController.addOnDestinationChangedListener { _, _, _ -> hideSoftInput() }
+@Composable
+fun InterviewNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
+    NavHost(
+        navController = navController,
+        startDestination = MainScreen.CharacterList.name,
+        modifier = modifier
+    ) {
+        composable(MainScreen.CharacterList.name) {
+            CharacterListBody()
+        }
+        composable(MainScreen.CharacterDetails.name) {
+            CharacterDetailsBody()
+        }
     }
 }
