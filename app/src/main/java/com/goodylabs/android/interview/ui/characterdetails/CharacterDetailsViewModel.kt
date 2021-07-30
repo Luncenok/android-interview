@@ -22,10 +22,21 @@ class CharacterDetailsViewModel @Inject constructor(
     private val _character = MutableLiveData<Character>()
     val character: LiveData<Character> = _character
 
+    private val _errorText = MutableLiveData<String?>()
+    val errorText: LiveData<String?> = _errorText
+
+    fun clearErrorText() {
+        _errorText.value = null
+    }
+
     fun refresh() {
         val characterKey = args.characterKey
         viewModelScope.launch {
-            _character.value = characterRepository.getCharacterById(characterKey)
+            try {
+                _character.value = characterRepository.getCharacterById(characterKey)
+            } catch (e: Exception) {
+                _errorText.value = "Error: $e"
+            }
         }
     }
 }

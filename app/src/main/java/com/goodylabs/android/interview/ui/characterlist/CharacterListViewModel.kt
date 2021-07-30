@@ -18,25 +18,41 @@ class CharacterListViewModel @Inject constructor(private val characterRepository
     private val _listCharacters = MutableLiveData<List<Character>?>()
     val listCharacters: LiveData<List<Character>?> = _listCharacters
 
+    private val _errorText = MutableLiveData<String?>()
+    val errorText: LiveData<String?> = _errorText
+
     private var nextPage: Int = 2
     private lateinit var currentContainer: CharactersContainer
 
     init {
         viewModelScope.launch {
-            val container = characterRepository.getCharacterContainer()
-            _listCharacters.value = container.results
-            currentContainer = container
+            try {
+                val container = characterRepository.getCharacterContainer()
+                _listCharacters.value = container.results
+                currentContainer = container
+            } catch (e: Exception) {
+                _errorText.value = "Error: $e"
+            }
         }
+    }
+
+    fun clearErrorText() {
+        _errorText.value = null
     }
 
     fun loadNextList() {
         viewModelScope.launch {
-            if (nextPage <= currentContainer.info.pages) {
-                val charactersContainer = characterRepository.getCharacterNextContainer(nextPage)
-                charactersContainer.results?.forEach {
-                    _listCharacters.value = _listCharacters.value?.plus(it)
+            try {
+                if (nextPage <= currentContainer.info.pages) {
+                    val charactersContainer =
+                        characterRepository.getCharacterNextContainer(nextPage)
+                    charactersContainer.results?.forEach {
+                        _listCharacters.value = _listCharacters.value?.plus(it)
+                    }
+                    nextPage++
                 }
-                nextPage++
+            } catch (e: Exception) {
+                _errorText.value = "Error: $e"
             }
         }
     }
