@@ -1,12 +1,12 @@
 buildscript {
     ext.kotlin_version = "1.5.10"
-    ext.composeVersion = "1.0.0"
+    ext.composeVersion = "1.0.1"
     repositories {
         mavenCentral()
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.1.0-alpha05'
+        classpath 'com.android.tools.build:gradle:7.1.0-alpha06'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.3.5"
         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.37'

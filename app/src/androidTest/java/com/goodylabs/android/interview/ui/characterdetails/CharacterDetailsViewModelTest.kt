@@ -1,13 +1,10 @@
 package com.goodylabs.android.interview.ui.characterdetails
 
-import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.SavedStateHandle
 import com.goodylabs.android.interview.MainCoroutineRule
 import com.goodylabs.android.interview.data.repositories.CharacterRepository
 import com.goodylabs.android.interview.runBlockingTest
 import com.goodylabs.android.interview.utilities.getValue
-import com.goodylabs.android.interview.utilities.testCharacter
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,11 +35,7 @@ class CharacterDetailsViewModelTest {
     @Before
     fun setUp() {
         hiltRule.inject()
-
-        val savedStateHandle: SavedStateHandle = SavedStateHandle().apply {
-            set("args", Bundle().apply { putInt("characterKey", testCharacter.id) })
-        }
-        viewModel = CharacterDetailsViewModel(characterRepository, savedStateHandle)
+        viewModel = CharacterDetailsViewModel(characterRepository)
     }
 
     @Suppress("BlockingMethodInNonBlockingContext")

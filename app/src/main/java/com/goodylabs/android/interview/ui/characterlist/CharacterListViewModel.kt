@@ -22,6 +22,7 @@ class CharacterListViewModel @Inject constructor(private val characterRepository
     val errorText: LiveData<String?> = _errorText
 
     private var nextPage: Int = 2
+    private var nextPageTest: Int = 2
     private lateinit var currentContainer: CharactersContainer
 
     init {
@@ -43,7 +44,8 @@ class CharacterListViewModel @Inject constructor(private val characterRepository
     fun loadNextList() {
         viewModelScope.launch {
             try {
-                if (nextPage <= currentContainer.info.pages) {
+                if (nextPage <= currentContainer.info.pages && nextPage == nextPageTest) {
+                    nextPageTest++
                     val charactersContainer =
                         characterRepository.getCharacterNextContainer(nextPage)
                     charactersContainer.results?.forEach {
@@ -52,6 +54,7 @@ class CharacterListViewModel @Inject constructor(private val characterRepository
                     nextPage++
                 }
             } catch (e: Exception) {
+                nextPageTest--
                 _errorText.value = "Error: $e"
             }
         }
