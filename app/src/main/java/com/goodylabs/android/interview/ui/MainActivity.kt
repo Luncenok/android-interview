@@ -5,8 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -14,6 +17,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import com.goodylabs.android.interview.R
 import com.goodylabs.android.interview.ui.characterdetails.CharacterDetailsBody
 import com.goodylabs.android.interview.ui.characterdetails.CharacterDetailsViewModel
 import com.goodylabs.android.interview.ui.characterlist.CharacterListBody
@@ -36,7 +40,13 @@ fun InterviewApp() {
     AndroidinterviewTheme {
         val navController = rememberNavController()
 
-        Scaffold { innerPadding ->
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = stringResource(id = R.string.app_name)) }
+                )
+            }
+        ) { innerPadding ->
             InterviewNavHost(
                 navController = navController,
                 modifier = Modifier.padding(innerPadding)
